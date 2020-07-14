@@ -131,6 +131,7 @@ public class Controller {
     void initialize() {
 
         final Connection[] db = {null};
+
         create_a_new_connection.setOnAction(event -> {
 
             AnchorPane.setVisible(true);
@@ -232,13 +233,14 @@ public class Controller {
 
 
                 Button b = new Button(" CONNECTION SERVER ");
-
+                Button b1=new Button("Change connection");
                // p.add(label_nameconnection,2,1);
                 p.add(label_hostname,2,1);
                 p.add(label_nameport,2,2);
                 p.add(label_username,2,3);
                 p.add(label_password,2,4);
-                p.add(b,1,5);
+                p.add(b1,1,5);
+                p.add(b,2,5);
 
                 Tab a = new Tab("adg", p);
 
@@ -252,6 +254,17 @@ public class Controller {
                     tabpane.getTabs().clear();
                 });
 
+                b1.setOnAction(event2 -> {
+
+                    AnchorPane.setVisible(true);
+                    Anchor_window_connection.setVisible(false);
+                    connection_name.setText(label_nameconnection.getText());
+                    host_name.setText(label_hostname.getText());
+                    port_name.setText(label_nameport.getText());
+                    User_name.setText(label_username.getText());
+                    password_name.setText(label_password.getText());
+
+                });
 
                 tabpane.getTabs().add(a);
 
