@@ -247,12 +247,13 @@ public class Controller {
 
                 b.setOnAction(event1 -> {
                     db[0] =Connectiondatabase(label_hostname.getText(),label_nameport.getText(),label_username.getText(),label_password.getText());
+
                     Anchor_window_connection.setVisible(false);
                     anchoPane_seting.setVisible(true);
                     tabpane.getTabs().clear();
                 });
 
-                b1.setOnAction(event2 -> {
+                b.setOnAction(event2 -> {
 
                     AnchorPane.setVisible(true);
                     Anchor_window_connection.setVisible(false);
@@ -344,11 +345,13 @@ public class Controller {
         button_select.setOnAction(event -> {
 
 
-            ResultSet temp = null;
+
             Statement PR= null;
             Statement PR1=null;
+
             ResultSet rs= null;
             ResultSet temp_11=null;
+
 
 
             try {
@@ -421,11 +424,13 @@ table_select.getColumns().clear();
             //table_select.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("name1"));
             try {
                 PR1= db[0].createStatement();
+
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
             try {
                 temp_11=PR1.executeQuery(" select * from " + text_table.getSelectionModel().getSelectedItem() + " ; ");
+
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
