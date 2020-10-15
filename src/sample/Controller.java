@@ -252,6 +252,17 @@ public class Controller {
                     tabpane.getTabs().clear();
                 });
 
+                b1.setOnAction(event2 -> {
+
+                    AnchorPane.setVisible(true);
+                    Anchor_window_connection.setVisible(false);
+                    connection_name.setText(label_nameconnection.getText());
+                    host_name.setText(label_hostname.getText());
+                    port_name.setText(label_nameport.getText());
+                    User_name.setText(label_username.getText());
+                    password_name.setText(label_password.getText());
+
+                });
 
                 tabpane.getTabs().add(a);
 
