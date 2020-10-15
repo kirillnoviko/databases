@@ -1,5 +1,6 @@
 package sample;
 
+import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
@@ -18,14 +19,21 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
+import javax.naming.ldap.PagedResultsControl;
 import java.lang.reflect.InvocationTargetException;
 
 import java.sql.*;
 import java.util.List;
+import java.util.concurrent.Executor;
+
 
 
 import java.io.FileNotFoundException;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -35,21 +43,7 @@ public class Controller {
         @FXML
         private AnchorPane anchoPane_seting;
         @FXML
-        private AnchorPane AnchorPane;
-        @FXML
-        private AnchorPane AnchorPaneMain;
-
-        @FXML
         private Button button_create_connection;
-        @FXML
-        private Button change_connection;
-        @FXML
-        private Button create_a_new_connection;
-        @FXML
-        private Button button_create_connection1;
-
-
-
         @FXML
         private TextField port_name;
 
@@ -65,12 +59,20 @@ public class Controller {
         @FXML
         private TextField connection_name;
 
+    @FXML
+    private Button change_connection;
 
+    @FXML
+    private Button create_a_new_connection;
 
         @FXML
         private MenuButton menubutton;
         @FXML
         private MenuItem MenuButtonConnect;
+        @FXML
+        private AnchorPane AnchorPane;
+        @FXML
+        private AnchorPane AnchorPaneMain;
 
         @FXML
         private TableView<ObservableList<String>> table_select;
@@ -123,74 +125,210 @@ public class Controller {
         @FXML
          private TabPane tabpane;
 
-    @FXML
-    private Label label_localServer;
-
-    @FXML
-    private Label label_remoteServer;
-
-    private Stage primarystage;
 
 
     @FXML
     void initialize() {
 
-
         final Connection[] db = {null};
-
         create_a_new_connection.setOnAction(event -> {
 
-            OnVisible_Anchor(AnchorPane);
-            setScenePrimaryStage(1);
-            label_localServer.setVisible(true);
-            OffVisible_Anchor(Anchor_window_connection);
+            AnchorPane.setVisible(true);
 
+            Anchor_window_connection.setVisible(false);
+            //anchoPane_seting.setVisible(true);
         });
         MenuButtonConnect.setOnAction(event->{
 
-                OffVisible_Anchor(anchoPane_seting);
+    anchoPane_seting.setVisible(false);
 
 
 
 
-                File dir=new  File("E://ad");
-                File  dir1=new File ("E://ad1");
-                 if(dir.isDirectory()) {
+    File dir=new  File("E://ad");
+    boolean creat=dir.mkdir();
+    if(dir.isDirectory()) {
 
-                            if(dir.listFiles().length >  0)
-                        {
-                                OnVisivle_Anchor_SettingConnection(dir,dir1,db);
-                        }
-                        else {
+        if(dir.listFiles().length >  0) {
+            for (File item : dir.listFiles()) {
 
-                             AnchorPane.setVisible(true);
-                             setScenePrimaryStage(1);
-                        }
+                FileReader red=null;
+                try {
+                    red=new FileReader(dir+"//"+item.getName());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
-                else
-                {   }
+                GridPane p=new GridPane();
+                Scanner fr=new Scanner(red);
+                List <Label> temper = new ArrayList<>();
+                Label label_nameconnection=new Label();
+                Label label_hostname=new Label();
+                Label label_nameport=new Label();
+                Label label_username=new Label();
+                Label label_password=new Label();
+                label_hostname.setTextFill(Color.web("#FFFFFFFF"));
+                label_hostname.setFont(new Font(20));
+                label_nameconnection.setTextFill(Color.web("#FFFFFFFF"));
+                label_nameconnection.setFont(new Font(30));
+                label_nameport.setTextFill(Color.web("#FFFFFFFF"));
+                label_nameport.setFont(new Font(20));
+                label_username.setTextFill(Color.web("#FFFFFFFF"));
+                label_username.setFont(new Font(20));
+                label_password.setTextFill(Color.web("#FFFFFFFF"));
+                label_password.setFont(new Font(20));
 
-        });
+                for(int i=0;i<4;i++){
+
+                    switch (i) {
+                        case 0: {
+                            temper.add(new Label("hostname: "));
+                        }
+                        case 1: {
+                            temper.add(new Label("hostport: "));
+                        }
+                        case 2: {
+                            temper.add(new Label("username: "));
+                        }
+                        case 3: {
+                            temper.add(new Label("password: "));
+                        }
+                        break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + i);
+                    }
+                    temper.get(i).setTextFill(Color.web("#FFFFFFFF"));
+                    temper.get(i).setFont(new Font(30));
+                    p.add(temper.get(i),1,i+1);
+                }
+                while(fr.hasNextLine()){
+                    label_nameconnection.setText( item.getName());
+                    label_hostname.setText(fr.nextLine());
+                    label_nameport.setText(fr.nextLine());
+                    label_username.setText(fr.nextLine());
+                    label_password.setText(fr.nextLine());
+
+                    }
+
+
+
+                try {
+                    red.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+           // });
+
+
+
+
+
+                System.out.println("folder");
+                Anchor_window_connection.setVisible(true);
+                //untitled1.getTabPane().getTabs().clear();
+
+
+                AnchorPane bb = new AnchorPane();
+
+
+
+                Button b = new Button(" CONNECTION SERVER ");
+
+               // p.add(label_nameconnection,2,1);
+                p.add(label_hostname,2,1);
+                p.add(label_nameport,2,2);
+                p.add(label_username,2,3);
+                p.add(label_password,2,4);
+                p.add(b,1,5);
+
+                Tab a = new Tab("adg", p);
+
+                a.setText("server"+label_nameconnection.getText());
+                bb.setStyle("-fx-background-color : #ffffff");
+
+                b.setOnAction(event1 -> {
+                    db[0] =Connectiondatabase(label_hostname.getText(),label_nameport.getText(),label_username.getText(),label_password.getText());
+                    Anchor_window_connection.setVisible(false);
+                    anchoPane_seting.setVisible(true);
+                    tabpane.getTabs().clear();
+                });
+
+
+                tabpane.getTabs().add(a);
+
+            }
+        }
+        else {
+            System.out.println("file");
+            AnchorPane.setVisible(true);
+        }
+    }
+
+   else
+    {
+
+    }
+
+
+
+
+});
         button_create_connection.setOnAction(event -> {
 
-            OnVisible_Anchor(AnchorPane);
-            setScenePrimaryStage(1);
-            FileWriter("E://ad//");
-            //File dir=new  File("E://ad");
-           // OnVisivle_Anchor_SettingConnection(dir,db);
-            button_create_connection.setVisible(false);
-            button_create_connection1.setVisible(true);
-            label_localServer.setVisible(false);
-            label_remoteServer.setVisible(true);
+            db[0] =Connectiondatabase(host_name.getText(),port_name.getText(),User_name.getText(),password_name.getText());
+            AnchorPane.setVisible(false);
+            anchoPane_seting.setVisible(true);
+            FileWriter temp= null;
+            try {
+                temp = new FileWriter("E://ad//"+connection_name.getText()+".txt",false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            /*try {
+                temp.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            FileWriter
+            /*try {
+                db.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }*/
+            try {
+                temp.write(host_name.getText()+"\n"+port_name.getText()+"\n"+User_name.getText()+"\n"+password_name.getText()+"\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        });
-        button_create_connection1.setOnAction(event -> {
-            OnVisible_Anchor(AnchorPane);
-            setScenePrimaryStage(1);
-            File dir=new  File("E://ad");
-            File dir1=new  File("E://ad1");
-            FileWriter("E://ad1//");
-            OnVisivle_Anchor_SettingConnection(dir,dir1,db);
+            try {
+                temp.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                temp.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+            FileReader red=null;
+            try {
+                 red=new FileReader("E://ad//"+connection_name.getText()+".txt");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            Scanner fr=new Scanner(red);
+            while(fr.hasNextLine()){
+                System.out.println(fr.nextLine());
+            }
+            try {
+                red.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         button_select.setOnAction(event -> {
 
@@ -207,6 +345,7 @@ public class Controller {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+
             try {
                 rs = PR.executeQuery("use " + table.getSelectionModel().getSelectedItem().getName()+ " ;");
                 rs=PR.executeQuery("desc "+ text_table.getSelectionModel().getSelectedItem() + " ;");
@@ -388,8 +527,6 @@ table_select.getColumns().clear();
         });
         conn.setOnAction(event -> {
         // Connectiondatabase();
-          primarystage.setHeight(960);
-          primarystage.setWidth(1345);
          Statement st = null;
          try {
              st = db[0].createStatement();
@@ -431,203 +568,80 @@ table_select.getColumns().clear();
                 new PropertyValueFactory<User,Integer>("name") );
                 table.setVisible(true);
 
+                
+        /* PreparedStatement PR= null;
+         try {
+             PR = Connectiondatabase().prepareStatement("select * from my_1;");
+         } catch (SQLException throwables) {
+             throwables.printStackTrace();
+         }
+         ResultSet rs= null;
+         try {
+             rs = PR.executeQuery();
+         } catch (SQLException throwables) {
+             throwables.printStackTrace();
+         }
+         while(true)
+             {
+                 try {
+                     if (!rs.next()) break;
+                 } catch (SQLException throwables) {
+                     throwables.printStackTrace();
+                 }
+                 String name= null;
+                 try {
+                     name = rs.getString("name");
+                 } catch (SQLException throwables) {
+                     throwables.printStackTrace();
+                 }
+                 System.out.println( name);
 
+             }
+
+*/
      });
     }
 
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primarystage=primaryStage;
-    }
 
-    public void setScenePrimaryStage( int a) {
-
-        switch(a)
-        {
-            case 1:
-
-                this.primarystage.setHeight(418);
-                this.primarystage.setWidth(479);
-                break;
-
-            case 2:
-                this.primarystage.setHeight(960);
-                this.primarystage.setWidth(1345);
-                break;
-
-            case 3:
-                this.primarystage.setHeight(597);
-                this.primarystage.setWidth(755);
-                break;
-
-        }
-    }
-
-    
-
-    public void OnVisivle_Anchor_SettingConnection(File dir,File dir1,Connection[] db){
-
-        OnVisible_Anchor(Anchor_window_connection);
-        setScenePrimaryStage(3);
-
-        //temp.getTabs().clear();
-        for (File item : dir.listFiles()) {
-            TabPane a=new TabPane();
-            for (File item1 : dir1.listFiles()) {
-               // if (item.getName() == item.getName()) {
-
-                a.getTabs().add(OnvisibleTabpane(dir+"//"+item.getName(),db,0));
-                a.getTabs().add(OnvisibleTabpane(dir1+"//"+item1.getName(),db,1));
-                GridPane p=new GridPane();
-                p.add(a,1,1);
-                Tab a1=new Tab("qwrq",a);
-                tabpane.getTabs().add(a1);
-            //}
-        }
-
-    }
-    }
+   /* public class select {
 
 
-    public Tab OnvisibleTabpane(String item,Connection[] db,int h)
-    {
-        FileReader red = null;
-        try {
-            red = new FileReader(item);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        Scanner fr = new Scanner(red);
-        GridPane p = new GridPane();
-        List<Label> labels = new ArrayList<>();
+        private final StringProperty nnnn;
+            private final StringProperty mmm;
 
 
-        for (int i = 0; i < 4; i++) {
+            public select(String name,String value) {
 
+                this.nnnn = new SimpleStringProperty(this, "chlen" , name);
+                this.mmm=new SimpleStringProperty(this,"xyu",value);
 
-            switch (i) {
-                case 0: {
-                    labels.add(new Label("hostname: "));
-                }
-                case 1: {
-                    labels.add(new Label("hostport: "));
-                }
-                case 2: {
-                    labels.add(new Label("username: "));
-                }
-                case 3: {
-                    labels.add(new Label("password: "));
-                }
-                break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + i);
             }
-            labels.get(i).setTextFill(Color.web("#FFFFFFFF"));
-            labels.get(i).setFont(new Font(30));
-            p.add(labels.get(i), 1, i + 1);
+
+        public void setName(String nnn) {
+            this.nnnn.set(nnn);
         }
 
-
-        List<Label> info_about_labels = new ArrayList<>();
-
-
-        while (fr.hasNextLine()) {
-            info_about_labels.add(new Label(fr.nextLine()));
-
-        }
-        for (int i = 0; i < info_about_labels.size(); i++) {
-            info_about_labels.get(i).setTextFill(Color.web("#FFFFFFFF"));
-            info_about_labels.get(i).setFont(new Font(30));
-            p.add(info_about_labels.get(i), 2, i + 1);
+        public StringProperty nameProperty() {
+            return nnnn;
         }
 
-
-        try {
-            red.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        public String getName() {
+            return nnnn.get();
         }
 
-
-        AnchorPane bb = new AnchorPane();
-        bb.setStyle("-fx-background-color : #ffffff");
-
-        Button connection_server = new Button(" CONNECTION SERVER ");
-        Button change_connection_server = new Button("Change connection");
-
-        p.add(change_connection_server, 1, 5);
-        p.add(connection_server, 2, 5);
-
-        Tab a = new Tab(item, p);
-
-
-        connection_server.setOnAction(event1 -> {
-
-            db[h] = Connectiondatabase(info_about_labels.get(0).getText(), info_about_labels.get(1).getText(), info_about_labels.get(2).getText(), info_about_labels.get(3).getText());
-
-            OffVisible_Anchor(Anchor_window_connection);
-            OnVisible_Anchor(anchoPane_seting);
-            setScenePrimaryStage(2);
-
-
-           // temp.getTabs().clear();
-        });
-
-        change_connection_server.setOnAction(event2 -> {
-            OnVisible_Anchor(AnchorPane);
-            setScenePrimaryStage(1);
-            OffVisible_Anchor(Anchor_window_connection);
-
-
-            connection_name.setText(item);
-            host_name.setText(info_about_labels.get(0).getText());
-            port_name.setText(info_about_labels.get(1).getText());
-            User_name.setText(info_about_labels.get(2).getText());
-            password_name.setText(info_about_labels.get(3).getText());
-            File red1 = new File(item);
-            red1.delete();
-        });
-
-        //temp.getTabs().add(a);
-return a;
-    }
-
-
-    public void OnVisible_Anchor( AnchorPane a){
-        a.setVisible(true);
-    }
-
-    public void OffVisible_Anchor( AnchorPane a){
-        a.setVisible(false);
-    }
-
-    public  void FileWriter(String dirname){
-        FileWriter temp= null;
-        try {
-            temp = new FileWriter(dirname+"//"+connection_name.getText()+".txt",false);
-        } catch (IOException e) {
-            e.printStackTrace();
+        public void setName1(String mmm) {
+            this.mmm.set(mmm);
         }
 
-        try {
-            temp.write(host_name.getText()+"\n"+port_name.getText()+"\n"+User_name.getText()+"\n"+password_name.getText()+"\n");
-        } catch (IOException e) {
-            e.printStackTrace();
+        public String getName1() {
+            return mmm.get();
         }
 
-        try {
-            temp.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            temp.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        public StringProperty name1Property() {
+            return mmm;
         }
 
-    }
-
+    }*/
     public class User{
         private IntegerProperty xer;
         private StringProperty name_1;
@@ -662,7 +676,13 @@ return a;
             return name_1;
         }
 
-
+  /*      @Override
+        public String toString() {
+            return "User{" +
+                    "id=" + id +
+                    ", name=" + name +
+                    '}';
+        }*/
     }
 
 
