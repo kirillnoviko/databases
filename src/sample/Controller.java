@@ -273,52 +273,7 @@ public class Controller {
                     System.out.println("sovpadaet");
                 }else
                 {
-                    try {
-                        rs.first();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
-                    try {
-                        rs1.first();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
-
-                    while (true)
-                    {
-
-
-
-                        try {
-                            if(!rs1.getString(2).equals(rs.getString(2))){
-                                String a="";
-                                try {
-                                    a =rs.getString(2);
-                                } catch (SQLException throwables) {
-                                    throwables.printStackTrace();
-                                }
-                                try {
-                                    rs1.updateString(2,a);
-                                    rs1.updateRow();
-                                } catch (SQLException throwables) {
-                                    throwables.printStackTrace();
-                                }
-
-                            }
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
-                        try {
-                            if(! rs1.next()) break;
-                            if(! rs.next()) break;
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
-
-
-                    }
-                    System.out.println("net");
-
+                   InputDateDB(rs,rs1);
 
                 }
 
@@ -854,41 +809,87 @@ table_select.getColumns().clear();
 
     private void InputDateDB(ResultSet a,ResultSet b)
     {
-        String[] c= {null};
-        int i=0;
+
+
+        try {
+            a.first();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        try {
+           b.first();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         while (true)
         {
-
+            String c = "";
+            int i=0;
             try {
-                if(! a.next()) break;
+                b.first();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            while(true) {
+                try {
+                    if(b.getString(2).equals(a.getString(2)))
+                    {
+                        i++;break;
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
 
-            while (true)
-            {
 
                 try {
                     if(! b.next()) break;
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-                if(!a.equals(b)){
-                    i++;
-                }
-
-
             }
-            if(i==0) {
+
+
+            if (i==0) {
+
+
                 try {
-                    c[i] = a.getString(1);
+                    c = a.getString(2);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-            }
 
+
+                try {
+                    b.moveToInsertRow();
+                    b.updateString(2, c);
+                   b.updateString(1, c);
+                    b.insertRow();
+                    b.moveToCurrentRow();
+                    //rs1.updateString(2,a);
+                    //rs1.updateRow();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+
+            }
+            try {
+                if(! a.next()) break;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
+
+
+
+
+
     }
+
+
+
+
     private String HechSum(String a)
     {
 
