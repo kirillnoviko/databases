@@ -1,8 +1,10 @@
 package sample;
 
-import java.awt.*;
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 import javafx.beans.property.*;
@@ -19,24 +21,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
-import javax.naming.ldap.PagedResultsControl;
 import java.lang.reflect.InvocationTargetException;
 
 import java.sql.*;
 import java.util.List;
-import java.util.concurrent.Executor;
-
 
 
 import java.io.FileNotFoundException;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-
 
 
 public class Controller {
@@ -59,11 +52,11 @@ public class Controller {
         @FXML
         private TextField connection_name;
 
-    @FXML
-    private Button change_connection;
+        @FXML
+        private Button change_connection;
 
-    @FXML
-    private Button create_a_new_connection;
+        @FXML
+        private Button create_a_new_connection;
 
         @FXML
         private MenuButton menubutton;
@@ -124,20 +117,225 @@ public class Controller {
         private PasswordField password_2;
         @FXML
          private TabPane tabpane;
+    @FXML
+    private Button button_insert;
 
+    @FXML
+    private Button button_update;
+
+    @FXML
+    private Button button_compare;
+
+    @FXML
+    private Button button_synchronize;
+
+    @FXML
+    private AnchorPane anchorpane_compare_with_itams;
+
+    @FXML
+    private ListView<String> listview_servers;
+
+    @FXML
+    private Button compare_with_selected_items;
 
 
     @FXML
     void initialize() {
 
+
+
+
+
         final Connection[] db = {null};
+        MultipleSelectionModel<String> langsSelectionModel = listview_servers.getSelectionModel();
+        langsSelectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+        button_compare.setOnAction(event -> {
+
+            anchorpane_compare_with_itams.setVisible(true);
+            anchoPane_seting.setVisible(false);
+            ReadNameFile();
+
+        });
+
+        compare_with_selected_items.setOnAction(event -> {
+            final Connection[] db1 = {null};
+
+            ObservableList<String> selected = langsSelectionModel.getSelectedItems();
+            for (String item : selected) {
+                FileReader red = null;
+                try {
+                    red = new FileReader("E://name_DB/" + item);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                Scanner fr = new Scanner(red);
+                db1[0] = Connectiondatabase(fr.nextLine(), fr.nextLine(), fr.nextLine(), fr.nextLine());
+
+
+                try {
+                    red.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                Statement PR = null;
+
+
+                ResultSet rs = null;
+                Statement PR1 = null;
+
+
+                ResultSet rs1 = null;
+
+
+                try {
+                    PR = db1[0].createStatement(
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_UPDATABLE
+                    );
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                try {
+                    rs = PR.executeQuery("use " + table.getSelectionModel().getSelectedItem().getName() + " ;");
+                    rs = PR.executeQuery("desc " + text_table.getSelectionModel().getSelectedItem() + " ;");
+                   rs=PR.executeQuery(" select * from " + text_table.getSelectionModel().getSelectedItem() + " ; ");
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+
+
+                }
+
+                try {
+                    PR1= db[0].createStatement(
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_UPDATABLE
+                    );
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                try {
+                    rs1 = PR1.executeQuery("use " + table.getSelectionModel().getSelectedItem().getName()+ " ;");
+                    rs1=PR1.executeQuery("desc "+ text_table.getSelectionModel().getSelectedItem() + " ;");
+                    rs1=PR1.executeQuery(" select * from " + text_table.getSelectionModel().getSelectedItem() + " ; ");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+
+                String tem="";
+                String tem1="";
+                while (true)
+                {
+
+                    try {
+                        if(! rs.next()) break;
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    try {
+
+                        tem=tem+rs.getString(1);;
+                        System.out.println(rs.getString("name"));
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+
+                }
+                while (true)
+                {
+
+                    try {
+                        if(! rs1.next()) break;
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    try {
+
+                        tem1=tem1+rs1.getString(1);;
+                        System.out.println(rs1.getString("name"));
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+
+                }
+               tem1= HechSum(tem1);
+               tem=HechSum(tem);
+                if(CompareHechSum(tem1,tem))
+                {
+                    System.out.println("sovpadaet");
+                }else
+                {
+                    try {
+                        rs.first();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    try {
+                        rs1.first();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    while (true)
+                    {
+
+
+
+                        try {
+                            if(!rs1.getString(2).equals(rs.getString(2))){
+                                String a="";
+                                try {
+                                    a =rs.getString(2);
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+                                try {
+                                    rs1.updateString(2,a);
+                                    rs1.updateRow();
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+
+                            }
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                        try {
+                            if(! rs1.next()) break;
+                            if(! rs.next()) break;
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+
+
+                    }
+                    System.out.println("net");
+
+
+                }
+
+
+
+            }
+        });
+
         create_a_new_connection.setOnAction(event -> {
 
             AnchorPane.setVisible(true);
 
             Anchor_window_connection.setVisible(false);
-            //anchoPane_seting.setVisible(true);
+
+
         });
+
         MenuButtonConnect.setOnAction(event->{
 
     anchoPane_seting.setVisible(false);
@@ -166,6 +364,7 @@ public class Controller {
                 Label label_nameport=new Label();
                 Label label_username=new Label();
                 Label label_password=new Label();
+
                 label_hostname.setTextFill(Color.web("#FFFFFFFF"));
                 label_hostname.setFont(new Font(20));
                 label_nameconnection.setTextFill(Color.web("#FFFFFFFF"));
@@ -284,6 +483,7 @@ public class Controller {
 
 
 });
+
         button_create_connection.setOnAction(event -> {
 
             db[0] =Connectiondatabase(host_name.getText(),port_name.getText(),User_name.getText(),password_name.getText());
@@ -342,6 +542,7 @@ public class Controller {
                 e.printStackTrace();
             }
         });
+
         button_select.setOnAction(event -> {
 
 
@@ -419,9 +620,6 @@ table_select.getColumns().clear();
 
 
 
-           // String property="sdg";
-            //table_select.getColumns().get(0).setCellValueFactory(new   PropertyValueFactory( "nnnn"));
-            //table_select.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("name1"));
             try {
                 PR1= db[0].createStatement();
 
@@ -438,24 +636,29 @@ table_select.getColumns().clear();
 
             ObservableList <String> it_2=FXCollections.observableArrayList();
 
-         //   select p;
 
+            String tem="";
             while (true)
             {
-           //      p=new select();
+
                 try {
                     if(! temp_11.next()) break;
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
+                try {
+                    tem=tem+temp_11.getString(1);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
 
 
-               ObservableList <String> it_3=FXCollections.observableArrayList();
+                ObservableList <String> it_3=FXCollections.observableArrayList();
                 List<String> a2 = new ArrayList<>();
                 for(int i=0;i<=b-1;i++) {
                     try {
                         a2.add(temp_11.getString(i+1));
-                       // a2.set(i,temp_11.getString(i));
+
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -467,17 +670,6 @@ table_select.getColumns().clear();
 
 
             }
-//table_select.setItems(it_2);
-     
-            //for(int i=0;i<=b-1;i++)
-            //{
-
-               // table_select.getColumns().get(i).setText("xerrrrr");
-          //      table_select.getColumns().get(i).setText("sdjhg");
-
-
-               // table_col_1.setCellValueFactory(new PropertyValueFactory<User,String>("name")         );
-            //}
 
 
 
@@ -494,6 +686,7 @@ table_select.getColumns().clear();
 
 
         });
+
         connection_bd.setOnAction(event -> {
 
            //Connection db=null;
@@ -541,6 +734,7 @@ table_select.getColumns().clear();
 
 
         });
+
         conn.setOnAction(event -> {
         // Connectiondatabase();
          Statement st = null;
@@ -618,46 +812,6 @@ table_select.getColumns().clear();
      });
     }
 
-
-   /* public class select {
-
-
-        private final StringProperty nnnn;
-            private final StringProperty mmm;
-
-
-            public select(String name,String value) {
-
-                this.nnnn = new SimpleStringProperty(this, "chlen" , name);
-                this.mmm=new SimpleStringProperty(this,"xyu",value);
-
-            }
-
-        public void setName(String nnn) {
-            this.nnnn.set(nnn);
-        }
-
-        public StringProperty nameProperty() {
-            return nnnn;
-        }
-
-        public String getName() {
-            return nnnn.get();
-        }
-
-        public void setName1(String mmm) {
-            this.mmm.set(mmm);
-        }
-
-        public String getName1() {
-            return mmm.get();
-        }
-
-        public StringProperty name1Property() {
-            return mmm;
-        }
-
-    }*/
     public class User{
         private IntegerProperty xer;
         private StringProperty name_1;
@@ -692,19 +846,91 @@ table_select.getColumns().clear();
             return name_1;
         }
 
-  /*      @Override
-        public String toString() {
-            return "User{" +
-                    "id=" + id +
-                    ", name=" + name +
-                    '}';
-        }*/
+    }
+    private boolean CompareHechSum( String a,String b)
+    {
+       return a.equals(b);
     }
 
+    private void InputDateDB(ResultSet a,ResultSet b)
+    {
+        String[] c= {null};
+        int i=0;
+        while (true)
+        {
 
+            try {
+                if(! a.next()) break;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+            while (true)
+            {
+
+                try {
+                    if(! b.next()) break;
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                if(!a.equals(b)){
+                    i++;
+                }
+
+
+            }
+            if(i==0) {
+                try {
+                    c[i] = a.getString(1);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+
+        }
+    }
+    private String HechSum(String a)
+    {
+
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[]hashInBytes = md.digest(a.getBytes(StandardCharsets.UTF_8));
+
+        //bytes to hex
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hashInBytes) {
+            sb.append(String.format("%02x", b));
+        }
+        System.out.println(sb.toString());
+        return sb.toString();
+    }
+    private void ReadNameFile(){
+        File dir=new  File("E://name_DB");
+        ObservableList <String> it_2=FXCollections.observableArrayList();
+        if(dir.isDirectory()) {
+
+            if (dir.listFiles().length > 0) {
+                for (File item : dir.listFiles()) {
+
+                    //FileReader red = null;
+                    it_2.add(item.getName());
+                    listview_servers.setItems(it_2);
+
+
+
+                }
+            }
+        }
+
+
+    }
     private Connection Connectiondatabase(String localhost,String port, String name,String password) {
 
-        String url ="jdbc:mysql://" + localhost + ":" + port +"/qq?serverTimezone=Europe/Moscow&useSSL=false";
+        String url ="jdbc:mysql://" + localhost + ":" + port +"/?serverTimezone=Europe/Moscow&useSSL=false";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
         } catch (ClassNotFoundException | NoSuchMethodException e) {

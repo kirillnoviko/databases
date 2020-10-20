@@ -101,8 +101,8 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <Button fx:id="connection_bd" layoutX="208.0" layoutY="65.0" mnemonicParsing="false" text="connection_bd" />
-            <TableView fx:id="table_select" layoutX="741.0" layoutY="152.0" prefHeight="442.0" prefWidth="479.0" />
+            <Button fx:id="connection_bd" layoutX="295.0" layoutY="347.0" mnemonicParsing="false" text="connection_bd" />
+            <TableView fx:id="table_select" layoutX="741.0" layoutY="151.0" prefHeight="442.0" prefWidth="479.0" />
             <Button fx:id="button_select" layoutX="564.0" layoutY="152.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="select *" />
             <ListView fx:id="text_table" layoutX="302.0" layoutY="391.0" prefHeight="384.0" prefWidth="243.0" />
             <TableView fx:id="table" layoutX="25.0" layoutY="494.0" prefHeight="412.0" prefWidth="217.0">
@@ -114,7 +114,11 @@
                   <TableColumn fx:id="table_col_2" prefWidth="75.0" text="Column X" />
                </columns>
             </TableView>
-            <Button fx:id="conn" layoutX="339.0" layoutY="257.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" text="view table" />
+            <Button fx:id="conn" layoutX="9.0" layoutY="414.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" text="view table" />
+            <Button fx:id="button_insert" layoutX="564.0" layoutY="187.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="insert" />
+            <Button fx:id="button_update" layoutX="564.0" layoutY="223.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="update" />
+            <Button fx:id="button_compare" layoutX="564.0" layoutY="119.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="compare" />
+            <Button fx:id="button_synchronize" layoutX="563.0" layoutY="88.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="synchronize" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="Anchor_window_connection" prefHeight="597.0" prefWidth="755.0" style="-fx-background-color: #2E3348;" visible="false">
@@ -130,6 +134,12 @@
                   <Font name="System Italic" size="20.0" />
                </font>
             </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorpane_compare_with_itams" prefHeight="501.0" prefWidth="466.0" style="-fx-background-color: #2E3348;" visible="false">
+         <children>
+            <ListView fx:id="listview_servers" layoutX="37.0" layoutY="35.0" prefHeight="373.0" prefWidth="375.0" />
+            <Button fx:id="compare_with_selected_items" layoutX="37.0" layoutY="408.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="375.0" text="compare with the selected items" textAlignment="CENTER" />
          </children>
       </AnchorPane>
    </children>
