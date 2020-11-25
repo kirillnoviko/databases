@@ -11,6 +11,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,8 +32,10 @@ import java.io.FileNotFoundException;
 
 import javafx.scene.paint.Color;
 
+import static sample.Main.stageMain;
 
 public class Controller {
+
         @FXML
         private AnchorPane anchoPane_seting;
         @FXML
@@ -60,17 +63,22 @@ public class Controller {
 
         @FXML
         private MenuButton menubutton;
+
         @FXML
         private MenuItem MenuButtonConnect;
+
         @FXML
         private AnchorPane AnchorPane;
+
         @FXML
         private AnchorPane AnchorPaneMain;
 
         @FXML
         private TableView<ObservableList<String>> table_select;
+
         @FXML
         private Button connection_bd;
+
         @FXML
         private ResourceBundle resources;
 
@@ -79,7 +87,6 @@ public class Controller {
 
         @FXML
         private PasswordField password_1;
-
 
         @FXML
         private ListView<String> text_table;
@@ -139,12 +146,9 @@ public class Controller {
     private Button compare_with_selected_items;
 
 
+
     @FXML
     void initialize() {
-
-
-
-
 
         final Connection[] db = {null};
         MultipleSelectionModel<String> langsSelectionModel = listview_servers.getSelectionModel();
@@ -158,8 +162,9 @@ public class Controller {
         });
 
         compare_with_selected_items.setOnAction(event -> {
-            final Connection[] db1 = {null};
 
+            final Connection[] db1 = {null};
+DB_Work[] dbWork=new DB_Work[10];
             ObservableList<String> selected = langsSelectionModel.getSelectedItems();
             for (String item : selected) {
                 FileReader red = null;
@@ -170,7 +175,8 @@ public class Controller {
                 }
 
                 Scanner fr = new Scanner(red);
-                db1[0] = Connectiondatabase(fr.nextLine(), fr.nextLine(), fr.nextLine(), fr.nextLine());
+                dbWork[1]=new DB_Work(fr.nextLine(), fr.nextLine(), fr.nextLine(), fr.nextLine());
+                //db1[0] = Connectiondatabase(fr.nextLine(), fr.nextLine(), fr.nextLine(), fr.nextLine());
 
 
                 try {
@@ -189,13 +195,17 @@ public class Controller {
 
                 ResultSet rs1 = null;
 
-
+                rs= dbWork[1].Use(table.getSelectionModel().getSelectedItem().getName());
+                rs=dbWork[1].ShowDesc(text_table.getSelectionModel().getSelectedItem());
+                rs=dbWork[1].SelectFrom(text_table.getSelectionModel().getSelectedItem());
+                /*
                 try {
                     PR = db1[0].createStatement(
                             ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_UPDATABLE
                     );
                 } catch (SQLException throwables) {
+
                     throwables.printStackTrace();
                 }
 
@@ -209,7 +219,12 @@ public class Controller {
 
 
                 }
+                */
 
+                rs1= dbWork[0].Use(table.getSelectionModel().getSelectedItem().getName());
+                rs1=dbWork[0].ShowDesc(text_table.getSelectionModel().getSelectedItem());
+                rs1=dbWork[0].SelectFrom(text_table.getSelectionModel().getSelectedItem());
+                /*
                 try {
                     PR1= db[0].createStatement(
                             ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -226,7 +241,7 @@ public class Controller {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-
+                */
 
                 String tem="";
                 String tem1="";
@@ -299,7 +314,7 @@ public class Controller {
 
 
     File dir=new  File("E://ad");
-    boolean creat=dir.mkdir();
+   // boolean creat=dir.mkdir();
     if(dir.isDirectory()) {
 
         if(dir.listFiles().length >  0) {
@@ -400,7 +415,8 @@ public class Controller {
                 bb.setStyle("-fx-background-color : #ffffff");
 
                 b.setOnAction(event1 -> {
-                    db[0] =Connectiondatabase(label_hostname.getText(),label_nameport.getText(),label_username.getText(),label_password.getText());
+                    //dbWork[0] =new DB_Work(label_hostname.getText(),label_nameport.getText(),label_username.getText(),label_password.getText());
+                   // db[0] =Connectiondatabase(label_hostname.getText(),label_nameport.getText(),label_username.getText(),label_password.getText());
 
                     Anchor_window_connection.setVisible(false);
                     anchoPane_seting.setVisible(true);
@@ -440,8 +456,8 @@ public class Controller {
 });
 
         button_create_connection.setOnAction(event -> {
-
-            db[0] =Connectiondatabase(host_name.getText(),port_name.getText(),User_name.getText(),password_name.getText());
+         //   dbWork[0]=new DB_Work(host_name.getText(),port_name.getText(),User_name.getText(),password_name.getText());
+          // db[0] =Connectiondatabase(host_name.getText(),port_name.getText(),User_name.getText(),password_name.getText());
             AnchorPane.setVisible(false);
             anchoPane_seting.setVisible(true);
             FileWriter temp= null;
@@ -497,6 +513,7 @@ public class Controller {
                 e.printStackTrace();
             }
         });
+        DB_Work[] dbWork = new DB_Work[10];
 
         button_select.setOnAction(event -> {
 
@@ -509,8 +526,9 @@ public class Controller {
             ResultSet temp_11=null;
 
 
-
-            try {
+           rs= dbWork[0].Use(table.getSelectionModel().getSelectedItem().getName());
+           rs= dbWork[0].ShowDesc(text_table.getSelectionModel().getSelectedItem());
+          /*  try {
                 PR= db[0].createStatement();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -521,8 +539,7 @@ public class Controller {
                 rs=PR.executeQuery("desc "+ text_table.getSelectionModel().getSelectedItem() + " ;");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
-            }
-
+            }*/
 
 table_select.getColumns().clear();
 
@@ -547,21 +564,6 @@ table_select.getColumns().clear();
                 }
 
 
-                //  qq.setCellValueFactory(new PropertyValueFactory<select,String>(rs.getString(1)));
-                   // table_select.getColumns().add(qq);
-
-                   // table_select.setItems(it_2);
-
-
-                 //   table_select.getColumns().get (0).setCellValueFactory( new PropertyValueFactory<>(rs.getString(1)));
-
-
-
-
-                    //qq.setVisible(true);
-
-                    //it_2.clear();
-
                 b++;
             }
 
@@ -574,8 +576,8 @@ table_select.getColumns().clear();
             }
 
 
-
-            try {
+           temp_11= dbWork[0].SelectFrom(text_table.getSelectionModel().getSelectedItem());
+            /*try {
                 PR1= db[0].createStatement();
 
             } catch (SQLException throwables) {
@@ -586,7 +588,7 @@ table_select.getColumns().clear();
 
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
-            }
+            }*/
 
 
             ObservableList <String> it_2=FXCollections.observableArrayList();
@@ -648,7 +650,7 @@ table_select.getColumns().clear();
             Statement PR= null;
             //db=Connectiondatabase();
             ResultSet rs= null;
-            try {
+          /*  try {
                 PR= db[0].createStatement();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -660,7 +662,9 @@ table_select.getColumns().clear();
              rs=PR.executeQuery("show tables;");
          } catch (SQLException throwables) {
              throwables.printStackTrace();
-         }
+         }*/
+            rs=dbWork[0].Use(table.getSelectionModel().getSelectedItem().getName());
+            rs=dbWork[0].ShowTables();
             ObservableList <String> it_2=FXCollections.observableArrayList();
          while(true)
              {
@@ -691,19 +695,22 @@ table_select.getColumns().clear();
         });
 
         conn.setOnAction(event -> {
+
         // Connectiondatabase();
-         Statement st = null;
+        /* Statement st = null;
          try {
              st = db[0].createStatement();
          } catch (SQLException throwables) {
              throwables.printStackTrace();
-         }
+         }*/
          ResultSet rs = null;
-         try {
+         /*try {
              rs = st.executeQuery("Show Databases");
          } catch (SQLException throwables) {
              throwables.printStackTrace();
-         }
+         }*/
+            //DB_Work temp= new DB_Work();
+           rs= dbWork[0].ShowDatabases();
          ObservableList<User> it= FXCollections.observableArrayList();
          ObservableList <String> it_1=FXCollections.observableArrayList();
          Integer kk=0;
@@ -733,41 +740,20 @@ table_select.getColumns().clear();
                 new PropertyValueFactory<User,Integer>("name") );
                 table.setVisible(true);
 
-                
-        /* PreparedStatement PR= null;
-         try {
-             PR = Connectiondatabase().prepareStatement("select * from my_1;");
-         } catch (SQLException throwables) {
-             throwables.printStackTrace();
-         }
-         ResultSet rs= null;
-         try {
-             rs = PR.executeQuery();
-         } catch (SQLException throwables) {
-             throwables.printStackTrace();
-         }
-         while(true)
-             {
-                 try {
-                     if (!rs.next()) break;
-                 } catch (SQLException throwables) {
-                     throwables.printStackTrace();
-                 }
-                 String name= null;
-                 try {
-                     name = rs.getString("name");
-                 } catch (SQLException throwables) {
-                     throwables.printStackTrace();
-                 }
-                 System.out.println( name);
 
-             }
-
-*/
      });
+        button_insert.setOnAction(event ->
+        {
+            try {
+                stageMain.setScene(new SceneBuilder().getScene("RegistrAndAuthorizat"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
     }
 
-    public class User{
+    public static class User{
         private IntegerProperty xer;
         private StringProperty name_1;
 
@@ -802,6 +788,7 @@ table_select.getColumns().clear();
         }
 
     }
+
     private boolean CompareHechSum( String a,String b)
     {
        return a.equals(b);
@@ -929,7 +916,7 @@ table_select.getColumns().clear();
 
 
     }
-    private Connection Connectiondatabase(String localhost,String port, String name,String password) {
+   /* private Connection Connectiondatabase(String localhost,String port, String name,String password) {
 
         String url ="jdbc:mysql://" + localhost + ":" + port +"/?serverTimezone=Europe/Moscow&useSSL=false";
         try {
@@ -953,6 +940,6 @@ table_select.getColumns().clear();
 
         return connection;
     }
-
+*/
 }
 

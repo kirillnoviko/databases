@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerMainWindow">
+   <children>
+      <AnchorPane fx:id="anchoPane_seting" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: #2E3348;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="buttonSelectTable" layoutX="106.0" layoutY="700.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="600.0" text="ВЫВЕСТИ НАЗВАНИЯ ТАБЛИЦ" AnchorPane.bottomAnchor="74.66666666666667" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="94.0" />
+            <MenuButton fx:id="menubutton" alignment="CENTER" layoutX="106.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="295.0" text="МЕНЮ" textOverrun="CENTER_ELLIPSIS" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="399.0" AnchorPane.topAnchor="74.0">
+               <items>
+                  <MenuItem fx:id="settingConnection" mnemonicParsing="false" text="настройки подлючения" />
+                  <MenuItem fx:id="buttonChangeAc" mnemonicParsing="false" text="сменить аккаунт" />
+                  <MenuItem fx:id="buttonExit" mnemonicParsing="false" text="выход" />
+               </items>
+            </MenuButton>
+            <ListView fx:id="table" layoutX="106.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="94.0" AnchorPane.topAnchor="100.0" />
+            <ListView fx:id="text_table" layoutX="106.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="94.0" AnchorPane.topAnchor="100.0" />
+            <ButtonBar fx:id="buttonbar" layoutX="86.0" layoutY="693.0" prefHeight="40.0" prefWidth="620.0" visible="false" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="94.0">
+              <buttons>
+                  <Button fx:id="buttonBack" mnemonicParsing="false" prefHeight="25.0" prefWidth="369.0" text="НАЗАД" />
+                  <Button fx:id="buttonNext" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="ДАЛЕЕ" />
+              </buttons>
+            </ButtonBar>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

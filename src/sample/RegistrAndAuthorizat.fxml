@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="400.0" pickOnBounds="false" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #2E3348;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerRegistrAndAuthorizat">
+   <children>
+      <AnchorPane fx:id="anchorAuthorization" accessibleRole="IMAGE_VIEW" maxHeight="400.0" maxWidth="400.0" minHeight="400.0" minWidth="400.0" prefHeight="400.0" prefWidth="400.0">
+         <children>
+            <TextField fx:id="persNum" layoutX="215.0" layoutY="193.0" prefHeight="25.0" prefWidth="122.0" promptText="3333">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </TextField>
+            <Label layoutX="60.0" layoutY="156.0" text="Password:" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="60.0" layoutY="119.0" prefHeight="43.0" prefWidth="58.0" text="Login:" textFill="#fefefe">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="60.0" layoutY="188.0" text="Personal number:" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="user_name" layoutX="118.0" layoutY="128.0" prefHeight="25.0" prefWidth="220.0" promptText="Insert Name">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </TextField>
+            <PasswordField fx:id="password_name" layoutX="148.0" layoutY="160.0" prefHeight="25.0" prefWidth="189.0" promptText="12345">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </PasswordField>
+            <Label layoutX="44.0" layoutY="68.0" maxHeight="50.0" maxWidth="321.0" minHeight="50.0" minWidth="311.0" prefHeight="50.0" prefWidth="311.0" text="Войдите, чтобы продолжить" textFill="#b9cfff">
+               <font>
+                  <Font name="Verdana" size="19.0" />
+               </font>
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </Label>
+            <Label fx:id="labelPassord" layoutX="63.0" layoutY="240.0" prefHeight="43.0" prefWidth="155.0" text="забыли пароль?" textFill="#b9cfff" underline="true">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Button fx:id="loginButton" layoutX="62.0" layoutY="226.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="275.0" text="ВОЙТИ" textAlignment="CENTER" />
+            <Button fx:id="exitProg" layoutX="62.0" layoutY="316.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="ОТМЕНА" textAlignment="CENTER" />
+            <Button fx:id="regNewUser" layoutX="62.0" layoutY="280.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="275.0" text="РЕГИСТРАЦИЯ" textAlignment="CENTER" />
+         </children>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorRegistration" layoutY="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" visible="false">
+         <children>
+            <TextField fx:id="newPersNum" layoutX="182.0" layoutY="210.0" prefHeight="25.0" prefWidth="189.0" promptText="3333">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </TextField>
+            <Label layoutX="17.0" layoutY="129.0" text="Password:" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="81.0" prefHeight="43.0" prefWidth="58.0" text="Login:" textFill="#fefefe">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="17.0" layoutY="208.0" text="Personal number:" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="newLogin" layoutX="72.0" layoutY="90.0" prefHeight="25.0" prefWidth="299.0" promptText="Insert Name">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </TextField>
+            <PasswordField fx:id="newPassword" layoutX="113.0" layoutY="131.0" prefHeight="25.0" prefWidth="259.0" promptText="12345">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </PasswordField>
+            <Label layoutX="18.0" layoutY="27.0" prefHeight="43.0" prefWidth="379.0" text="Заполните поля для регистрации:" textFill="#b9cfff">
+               <font>
+                  <Font name="Verdana" size="19.0" />
+               </font>
+            </Label>
+            <Button fx:id="inputNewUserButton" layoutX="250.0" layoutY="286.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="РЕГИСТРАЦИЯ" textAlignment="CENTER" />
+            <Button fx:id="buttonCancel" layoutX="17.0" layoutY="286.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="ОТМЕНА" textAlignment="CENTER" />
+            <Label layoutX="17.0" layoutY="168.0" text="Repeat password:" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="newPasswordRepeat" layoutX="182.0" layoutY="170.0" prefHeight="25.0" prefWidth="189.0" promptText="12345">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </PasswordField>
+            <Label layoutX="17.0" layoutY="248.0" text="Codeword for password:" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="codeWord" layoutX="234.0" layoutY="250.0" prefHeight="25.0" prefWidth="137.0" promptText="3333">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </TextField>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorChangePassword" layoutY="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" visible="false">
+         <children>
+            <TextField fx:id="anchorChangePersNum" layoutX="182.0" layoutY="175.0" prefHeight="25.0" prefWidth="189.0" promptText="3333">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </TextField>
+            <Label fx:id="anchorChangeSaveLabelpassword" layoutX="17.0" layoutY="129.0" text="Password:" textFill="WHITE" visible="false">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="anchorChangeLabelLogin" layoutX="15.0" layoutY="123.0" prefHeight="43.0" prefWidth="58.0" text="Login:" textFill="#fefefe">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="anchorChangeLabelPersonalNum" layoutX="16.0" layoutY="172.0" text="Personal number:" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="anchorChangeLogin" layoutX="78.0" layoutY="134.0" prefHeight="25.0" prefWidth="293.0" promptText="Insert Name">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </TextField>
+            <PasswordField fx:id="anchorChangeSavePassword" layoutX="113.0" layoutY="131.0" prefHeight="25.0" prefWidth="259.0" promptText="12345" visible="false">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </PasswordField>
+            <Label fx:id="anchorChangeLabelTeg" layoutX="18.0" layoutY="27.0" prefHeight="43.0" prefWidth="379.0" text="Заполните поля для смены пароля:" textFill="#b9cfff">
+               <font>
+                  <Font name="Verdana" size="19.0" />
+               </font>
+            </Label>
+            <Button fx:id="anchorChangeButtonDalee" layoutX="250.0" layoutY="286.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="ДАЛЕЕ" textAlignment="CENTER" />
+            <Button fx:id="anchorChangeSaveButtonCancel" layoutX="17.0" layoutY="286.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="ОТМЕНА" textAlignment="CENTER" />
+            <Label fx:id="anchorChangeSaveLabelRepeatPassword" layoutX="17.0" layoutY="168.0" text="Repeat password:" textFill="WHITE" visible="false">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="anchorChangeSaveRepeatPassword" layoutX="182.0" layoutY="170.0" prefHeight="25.0" prefWidth="189.0" promptText="12345" visible="false">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </PasswordField>
+            <Label fx:id="anchorChangeLabelCodeword" layoutX="17.0" layoutY="210.0" text="Codeword for password:" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="anchorChangecodeWord" layoutX="234.0" layoutY="214.0" prefHeight="25.0" prefWidth="137.0" promptText="3333">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </TextField>
+            <Button fx:id="anchorChangeSaveButtonSavePassword" layoutX="250.0" layoutY="286.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="СОХРАНИТЬ" textAlignment="CENTER" visible="false" />
+            <Label fx:id="anchorChangeSaveLabelTeg" layoutX="18.0" layoutY="27.0" prefHeight="43.0" prefWidth="379.0" text="Введите новый пароль:" textFill="#b9cfff" visible="false">
+               <font>
+                  <Font name="Verdana" size="19.0" />
+               </font>
+            </Label>
+            <Button fx:id="anchorChangeButtonCancel" layoutX="17.0" layoutY="286.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="ОТМЕНА" textAlignment="CENTER" visible="false" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
